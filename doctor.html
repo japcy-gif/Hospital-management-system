@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospital Management System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8f9fa; }
+    .container { margin-top: 20px; }
+    .navbar-brand { font-weight: bold; }
+    .section { display: none; }
+    .section.active { display: block; }
+    table { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Hospital Management</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('signup')">Sign Up</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('login')">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('doctors')">Doctors</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('patients')">Patients</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('appointments')">Appointments</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('symptoms')">Symptoms</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('prescriptions')">Prescriptions</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" onclick="logout()">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Sign Up Section -->
+    <div id="signup" class="section active">
+      <h2>Sign Up</h2>
+      <form id="signupForm">
+        <div class="mb-3">
+          <label class="form-label">Username</label>
+          <input type="text" class="form-control" id="signupUsername" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-control" id="signupPassword" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+      </form>
+    </div>
+
+    <!-- Login Section -->
+    <div id="login" class="section">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <div class="mb-3">
+          <label class="form-label">Username</label>
+          <input type="text" class="form-control" id="loginUsername" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-control" id="loginPassword" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+      </form>
+    </div>
+
+    <!-- Doctors Section -->
+    <div id="doctors" class="section">
+      <h2>Add Doctor</h2>
+      <form id="addDoctorForm">
+        <div class="mb-3"><input type="number" class="form-control" id="docId" placeholder="Doctor ID" required></div>
+        <div class="mb-3"><input type="text" class="form-control" id="docName" placeholder="Name" required></div>
+        <div class="mb-3"><input type="text" class="form-control" id="docSpec" placeholder="Specialization" required></div>
+        <button type="submit" class="btn btn-primary">Add Doctor</button>
+      </form>
+      <h3 class="mt-4">Doctor List</h3>
+      <table class="table table-bordered"><thead><tr><th>ID</th><th>Name</th><th>Specialization</th></tr></thead><tbody id="doctorTableBody"></tbody></table>
+    </div>
+
+    <!-- Patients Section -->
+    <div id="patients" class="section">
+      <h2>Add Patient</h2>
+      <form id="addPatientForm">
+        <div class="mb-3"><input type="number" class="form-control" id="patId" placeholder="Patient ID" required></div>
+        <div class="mb-3"><input type="text" class="form-control" id="patName" placeholder="Name" required></div>
+        <div class="mb-3"><input type="number" class="form-control" id="patAge" placeholder="Age" required></div>
+        <button type="submit" class="btn btn-primary">Add Patient</button>
+      </form>
+      <h3 class="mt-4">Patient List</h3>
+      <table class="table table-bordered"><thead><tr><th>ID</th><th>Name</th><th>Age</th></tr></thead><tbody id="patientTableBody"></tbody></table>
+    </div>
+
+    <!-- Appointments Section -->
+    <div id="appointments" class="section">
+      <h2>Book Appointment</h2>
+      <form id="bookAppointmentForm">
+        <div class="mb-3"><input type="number" class="form-control" id="appId" placeholder="Appointment ID" required></div>
+        <div class="mb-3"><input type="number" class="form-control" id="appPatId" placeholder="Patient ID" required></div>
+        <div class="mb-3"><input type="number" class="form-control" id="appDocId" placeholder="Doctor ID" required></div>
+        <div class="mb-3"><input type="date" class="form-control" id="appDate" required></div>
+        <button type="submit" class="btn btn-primary">Book Appointment</button>
+      </form>
+      <h3 class="mt-4">Appointments</h3>
+      <table class="table table-bordered"><thead><tr><th>Appointment ID</th><th>Patient ID</th><th>Doctor ID</th><th>Date</th></tr></thead><tbody id="appointmentTableBody"></tbody></table>
+    </div>
+
+    <!-- Symptoms Section -->
+    <div id="symptoms" class="section">
+      <h2>Enter Symptoms</h2>
+      <form id="symptomsForm">
+        <div class="mb-3"><input type="number" class="form-control" id="symPatId" placeholder="Patient ID" required></div>
+        <div class="mb-3"><textarea class="form-control" id="symDesc" placeholder="Symptoms" required></textarea></div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+      <h3 class="mt-4">Symptoms</h3>
+      <table class="table table-bordered"><thead><tr><th>Patient ID</th><th>Symptoms</th></tr></thead><tbody id="symptomsTableBody"></tbody></table>
+    </div>
+
+    <!-- Prescriptions Section -->
+    <div id="prescriptions" class="section">
+      <h2>Add Prescription</h2>
+      <form id="prescriptionForm">
+        <div class="mb-3"><input type="number" class="form-control" id="prescPatId" placeholder="Patient ID" required></div>
+        <div class="mb-3"><textarea class="form-control" id="prescDesc" placeholder="Prescription" required></textarea></div>
+        <button type="submit" class="btn btn-primary">Add</button>
+      </form>
+      <h3 class="mt-4">Prescriptions</h3>
+      <table class="table table-bordered"><thead><tr><th>Patient ID</th><th>Prescription</th></tr></thead><tbody id="prescriptionTableBody"></tbody></table>
+    </div>
+  </div>
+
+  <script>
+    let systemUsername = '', systemPassword = '', isLoggedIn = false;
+    const doctors = [], patients = [], appointments = [], symptomsList = [], prescriptions = [];
+
+    function showSection(sectionId) {
+      if (!isLoggedIn && sectionId !== 'signup' && sectionId !== 'login') {
+        alert('Please login first.');
+        sectionId = 'login';
+      }
+      document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+      document.getElementById(sectionId).classList.add('active');
+    }
+
+    function logout() {
+      isLoggedIn = false;
+      alert('Logged out.');
+      showSection('login');
+    }
+
+    document.getElementById('signupForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      systemUsername = document.getElementById('signupUsername').value;
+      systemPassword = document.getElementById('signupPassword').value;
+      alert('Sign-up successful.');
+      e.target.reset();
+      showSection('login');
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = document.getElementById('loginUsername').value;
+      const password = document.getElementById('loginPassword').value;
+      if (username === systemUsername && password === systemPassword) {
+        isLoggedIn = true;
+        alert('Login successful!');
+        showSection('doctors');
+      } else {
+        alert('Invalid credentials!');
+      }
+      e.target.reset();
+    });
+
+    document.getElementById('addDoctorForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = document.getElementById('docId').value;
+      const name = document.getElementById('docName').value;
+      const spec = document.getElementById('docSpec').value;
+      doctors.push({ id, name, spec });
+      updateTable('doctorTableBody', doctors, ['id', 'name', 'spec']);
+      alert('Doctor added.');
+      e.target.reset();
+    });
+
+    document.getElementById('addPatientForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = document.getElementById('patId').value;
+      const name = document.getElementById('patName').value;
+      const age = document.getElementById('patAge').value;
+      patients.push({ id, name, age });
+      updateTable('patientTableBody', patients, ['id', 'name', 'age']);
+      alert('Patient added.');
+      e.target.reset();
+    });
+
+    document.getElementById('bookAppointmentForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const appId = document.getElementById('appId').value;
+      const patId = document.getElementById('appPatId').value;
+      const docId = document.getElementById('appDocId').value;
+      const date = document.getElementById('appDate').value;
+      appointments.push({ appId, patId, docId, date });
+      updateTable('appointmentTableBody', appointments, ['appId', 'patId', 'docId', 'date']);
+      alert('Appointment booked.');
+      e.target.reset();
+    });
+
+    document.getElementById('symptomsForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const patId = document.getElementById('symPatId').value;
+      const desc = document.getElementById('symDesc').value;
+      symptomsList.push({ patId, desc });
+      updateTable('symptomsTableBody', symptomsList, ['patId', 'desc']);
+      alert('Symptoms recorded.');
+      e.target.reset();
+    });
+
+    document.getElementById('prescriptionForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const patId = document.getElementById('prescPatId').value;
+      const presc = document.getElementById('prescDesc').value;
+      prescriptions.push({ patId, presc });
+      updateTable('prescriptionTableBody', prescriptions, ['patId', 'presc']);
+      alert('Prescription added.');
+      e.target.reset();
+    });
+
+    function updateTable(tableId, data, keys) {
+      const tbody = document.getElementById(tableId);
+      tbody.innerHTML = '';
+      data.forEach(item => {
+        const row = document.createElement('tr');
+        keys.forEach(k => {
+          row.innerHTML += `<td>${item[k]}</td>`;
+        });
+        tbody.appendChild(row);
+      });
+    }
+
+    showSection('signup');
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
